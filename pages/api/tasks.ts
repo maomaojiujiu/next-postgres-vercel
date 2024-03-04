@@ -6,7 +6,11 @@ const prisma = new PrismaClient()
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
-        const tasks = await prisma.tasks.findMany()
+        const tasks = await prisma.tasks.findMany({
+            orderBy: {
+                id: 'desc'
+            } as any
+        })
         res.status(200).json(tasks)
     } else if (req.method === 'POST') {
         const newTask = req.body
